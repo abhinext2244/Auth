@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logout } from "../rudex/slices/authSlices";
+import { logout } from "../redux/slices/authSlices";
 import { logoutApi } from "../api/authApi";
 
 const LogoutButton = () => {
