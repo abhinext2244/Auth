@@ -8,10 +8,15 @@ const app=express();
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
-app.use(cors({
-  origin: "https://your-frontend.vercel.app",
-  credentials: true,
-}));
+import cors from "cors";
+
+app.use(
+  cors({
+    origin: "https://auth-h3mx.vercel.app",
+    credentials:true,
+  })
+);
+
 
 const PORT=process.env.PORT || 3008;
 app.use("/api/v1/auth",Router);
