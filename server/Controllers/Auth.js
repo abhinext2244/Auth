@@ -47,7 +47,7 @@ export const SendOtp = async (req, res) => {
     });
 
     // TODO: send email here
-    console.log("OTP (dev only):", otp);
+    // console.log("OTP (dev only):", otp);
 
     return res.status(200).json({
       success: true,
@@ -170,7 +170,7 @@ export const Login = async (req, res) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,       // production me true
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 

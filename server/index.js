@@ -9,9 +9,10 @@ app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://your-frontend.vercel.app",
   credentials: true,
 }));
+
 const PORT=process.env.PORT || 3008;
 app.use("/api/v1/auth",Router);
 app.get("/",(req,res)=>res.send("Welcome to our Home Page"));
