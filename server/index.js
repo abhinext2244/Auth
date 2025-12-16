@@ -8,11 +8,11 @@ const app=express();
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
-import cors from "cors";
 
 app.use(
   cors({
     origin: "https://auth-h3mx.vercel.app",
+    // origin:"http://localhost:5173",
     credentials:true,
   })
 );

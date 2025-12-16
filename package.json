@@ -13,5 +13,12 @@
     
   "dev": "concurrently -n server,client -c bgBlue.bold,bgGreen.bold \"npm run server\" \"npm run client\""
   
+  },
+  
+  "dependencies": {
+  
+    
+  "concurrently": "^9.2.1"
+  
   }
 }

@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
+import mailSender from "../utils/mailSender.js";
+import otpTemplate from "../Template/mail/EmailVerfifactionTemplate.js";
 export const SendOtp = async (req, res) => {
   try {
     const { email } = req.body;
@@ -36,7 +38,11 @@ export const SendOtp = async (req, res) => {
       const otpExists = await Otp.findOne({ otp });
       if (!otpExists) isUnique = true;
     }
-
+ await mailSender(
+      email,
+      "OTP Verification",
+      otpTemplate(otp)
+    );
     // hash OTP
     const hashedOtp = await bcrypt.hash(otp, 10);
 
