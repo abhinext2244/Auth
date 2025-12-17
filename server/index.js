@@ -8,14 +8,28 @@ const app=express();
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
+const allowedOrigins = [
+  "https://auth-h3mx.vercel.app",
+  "https://auth-taupe-phi.vercel.app",
+  "http://localhost:5173",
+];
 
 app.use(
   cors({
-    origin: "https://auth-taupe-phi.vercel.app",
-    // origin:"http://localhost:5173",
-    credentials:true,
+    origin: function (origin, callback) {
+      // Postman / server-side requests ke liye
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
   })
 );
+
 
 
 const PORT=process.env.PORT || 3008;
