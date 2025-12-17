@@ -1,12 +1,12 @@
 import otpGenerator from "otp-generator";
-import Otp from "../Models/otp.js";
-import User from "../Models/user.models.js";
+import Otp from "../models/otp.js";
+import User from "../models/user.models.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 import mailSender from "../utils/mailSender.js";
-import otpTemplate from "../Template/mail/EmailVerfifactionTemplate.js";
+import otpTemplate from "../template/mail/EmailVerfifactionTemplate.js";
 export const SendOtp = async (req, res) => {
   try {
     const { email } = req.body;
