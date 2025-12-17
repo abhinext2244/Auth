@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 import mailSender from "../utils/mailSender.js";
-import otpTemplate from "../template/mail/EmailVerfifactionTemplate.js";
+import otpTemplate from "../template/mail/EmailVerifactionTemplate.js";
 export const SendOtp = async (req, res) => {
   try {
     const { email } = req.body;
