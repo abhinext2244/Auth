@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-  "https://auth-h3mx.vercel.app",
+  "https://auth-taupe-phi.vercel.app",
   "https://auth-taupe-phi.vercel.app",
   "http://localhost:5173",
 ];
