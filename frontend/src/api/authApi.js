@@ -2,7 +2,7 @@ import { apiConnector } from "./apiConnector.js";
 import { endpoint } from "./api.js";
 import toast from "react-hot-toast";
 import { setLoading,setAccessToken } from "../redux/slices/authSlices";
-const { SENDOTP_API, SIGNUP_API, LOGIN_API } = endpoint;
+const { SENDOTP_API, SIGNUP_API, LOGIN_API,LOGOUT_API } = endpoint;
 export function sendOtpApi(email, navigate) {
   return async (dispatch) => {
     const toasId=toast.loading("Sending OTP...");
@@ -76,7 +76,7 @@ export function logoutApi(){
     dispatch(setLoading(true));
     const toastId=toast.loading("Logging Out...");
     try {
-      const response=await apiConnector("GET","/logout");
+      const response=await apiConnector("GET",LOGOUT_API);
       console.log("Logout Response..........",response);
       if(!response.data.success){
           throw new Error(response.data.message);
