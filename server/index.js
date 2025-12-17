@@ -43,14 +43,13 @@
 //   await db();
 //   console.log(`Server is running on port ${PORT}`);
 // });
+import "./config/env.js"
 import express from "express";
 import cookieParser from "cookie-parser";
-import dotenv from "dotenv";
 import db from "./database/db.js";
 import router from "./routes/user.routes.js";
 import cors from "cors";
 
-dotenv.config();
 
 const app = express();
 
@@ -76,6 +75,7 @@ app.use(
     credentials: true,
   })
 );
+console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
 
 app.use("/api/v1/auth", router);
 

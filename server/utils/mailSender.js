@@ -1,25 +1,18 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 
-const mailSender = async (email, subject, body) => {
-      try {
-    const transporter = nodemailer.createTransport({
-        host: process.env.SMPT_HOST,
-        auth: {
-            user: process.env.SMPT_USER,
-            pass: process.env.SMPT_PASS,
-        },
-    });
-    const mailOptions = {
-        from: "Auth",
-        to: email,
-        subject: subject,
-        html: body,
-    };
-       return await transporter.sendMail(mailOptions);
-        console.log("Email sent successfully");
-    } catch (error) {
-        console.log(error);
-    }
+if (!process.env.RESEND_API_KEY) {
+  throw new Error("RESEND_API_KEY not loaded");
+}
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const mailSender = async (to, subject, html) => {
+  return resend.emails.send({
+    from: process.env.FROM_EMAIL,
+    to,
+    subject,
+    html,
+  });
 };
 
-export default mailSender
+export default mailSender;
