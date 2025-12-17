@@ -56,7 +56,7 @@ export const SendOtp = async (req, res) => {
     });
 
   
-    mailSender(email, "OTP Verification", otpTemplate(otp))
+    mailSender(email, "Otp Verification", otpTemplate(otp))
       .then(() => console.log("OTP mail sent to", email))
       .catch(err => console.error("Mail error:", err.message));
 
