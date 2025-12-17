@@ -11,7 +11,7 @@ dotenv.config();
 
 app.use(
   cors({
-    origin: "https://auth-h3mx.vercel.app",
+    origin: "https://auth-taupe-phi.vercel.app",
     // origin:"http://localhost:5173",
     credentials:true,
   })
