@@ -21,7 +21,7 @@ export const SendOtp = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // delete old OTP for same email
+    // delete old OTP
     await Otp.deleteMany({ email });
 
     // generate unique OTP
@@ -38,32 +38,34 @@ export const SendOtp = async (req, res) => {
       const otpExists = await Otp.findOne({ otp });
       if (!otpExists) isUnique = true;
     }
- await mailSender(
-      email,
-      "OTP Verification",
-      otpTemplate(otp)
-    );
-    // hash OTP
+
+    // 🔐 hash OTP
     const hashedOtp = await bcrypt.hash(otp, 10);
 
+    // ✅ save OTP FIRST
     await Otp.create({
       email,
       otp: hashedOtp,
-      expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 min
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
     });
 
-    // TODO: send email here
-    // console.log("OTP (dev only):", otp);
-
-    return res.status(200).json({
+    // 🚀 respond immediately (NO BLOCKING)
+    res.status(200).json({
       success: true,
       message: "OTP sent successfully",
     });
+
+    // 📧 send email in background
+    mailSender(email, "OTP Verification", otpTemplate(otp))
+      .then(() => console.log("OTP mail sent to", email))
+      .catch(err => console.error("Mail error:", err.message));
+
   } catch (error) {
-    console.error(error);
+    console.error("SEND OTP ERROR:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 export const SignUp = async (req, res) => {
   try {
     const { name, email, password, otp } = req.body;
