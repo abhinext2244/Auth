@@ -1,5 +1,5 @@
 import express from "express";
-import {SendOtp,SignUp,Login,logout} from "../controllers/auth.js";
+import {SendOtp,SignUp,Login,logout} from "../controllers/auth.controller.js";
 const router = express.Router();
 router.post("/send-otp", SendOtp);
 router.post("/signup", SignUp);
