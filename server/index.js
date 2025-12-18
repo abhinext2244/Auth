@@ -15,7 +15,6 @@
 
 // const allowedOrigins = [
 //   "https://auth-taupe-phi.vercel.app",
-//   "https://auth-taupe-phi.vercel.app",
 //   "http://localhost:5173",
 // ];
 
