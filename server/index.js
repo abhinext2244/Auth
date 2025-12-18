@@ -48,34 +48,18 @@ import cookieParser from "cookie-parser";
 import db from "./database/db.js";
 import router from "./routes/user.routes.js";
 import cors from "cors";
-
-
 const app = express();
-
 app.use(express.json());
 app.use(cookieParser());
-
-const allowedOrigins = [
-  "https://auth-taupe-phi.vercel.app",
-  "http://localhost:5173",
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error("Not allowed by CORS"));
-    },
+    origin: [
+      "https://auth-taupe-phi.vercel.app",
+      "http://localhost:5173",
+    ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
-
-//  THIS LINE IS MUST (preflight fix)
 app.options("*", cors());
 
 console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
