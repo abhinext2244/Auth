@@ -1,83 +1,53 @@
-// import express from "express";
-// import cookieParser from "cookie-parser";
-// import dotenv from "dotenv";
-// import db from "./database/db.js";
-// import router from "./routes/user.routes.js";
-// import cors from "cors";
-
-// dotenv.config();
-
-// const app = express();
-
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
-
-// const allowedOrigins = [
-//   "https://auth-taupe-phi.vercel.app",
-//   "http://localhost:5173",
-// ];
-
-// app.use(
-//   cors({
-//     origin: function (origin, callback) {
-//       if (!origin) return callback(null, true);
-//       if (allowedOrigins.includes(origin)) {
-//         callback(null, true);
-//       } else {
-//         callback(new Error("Not allowed by CORS"));
-//       }
-//     },
-//     credentials: true,
-//   })
-// );
-
-// app.use("/api/v1/auth", router);
-
-// app.get("/", (req, res) => res.send("Welcome to our Home Page"));
-
-// const PORT = process.env.PORT || 3008;
-
-// app.listen(PORT, async () => {
-//   await db();
-//   console.log(`Server is running on port ${PORT}`);
-// });
-import "./config/env.js"
+import "./config/env.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import db from "./database/db.js";
 import router from "./routes/user.routes.js";
 import cors from "cors";
+
 const app = express();
+
+/* ---------- BODY PARSERS ---------- */
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: [
-      "https://auth-taupe-phi.vercel.app",
-      "http://localhost:5173",
-    ],
-    credentials: true,
-  })
-);
-app.options("*", cors());
 
-console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
+/* ---------- CORS (ONLY ONE PLACE) ---------- */
+const corsOptions = {
+  origin: "https://auth-taupe-phi.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
 
+app.use(cors(corsOptions));
+
+/* 🔥 PREVENT OPTIONS FROM HITTING ROUTES */
+app.use((req, res, next) => {
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
+/* ---------- ROUTES ---------- */
 app.use("/api/v1/auth", router);
 
-app.get("/", (req, res) => res.send("Welcome to our Home Page"));
+app.get("/", (req, res) => {
+  res.send("Welcome to our Home Page");
+});
 
+/* ---------- SERVER ---------- */
 const PORT = process.env.PORT || 3008;
 
 const startServer = async () => {
   try {
-    await db(); //  DB FIRST
+    await db();
     app.listen(PORT, () => {
-      console.log(` Server running on port ${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error(" Failed to start server:", error.message);
+    console.error("Failed to start server:", error.message);
     process.exit(1);
   }
 };
