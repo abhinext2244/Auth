@@ -57,7 +57,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 const allowedOrigins = [
-  "https://auth-h3mx.vercel.app",
   "https://auth-taupe-phi.vercel.app",
   "http://localhost:5173",
 ];
@@ -67,14 +66,19 @@ app.use(
     origin: function (origin, callback) {
       if (!origin) return callback(null, true);
       if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
+        return callback(null, true);
       }
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+
+//  THIS LINE IS MUST (preflight fix)
+app.options("*", cors());
+
 console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
 
 app.use("/api/v1/auth", router);
