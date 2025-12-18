@@ -28,3 +28,4 @@ const mailSender = async (to, subject, html) => {
 };
 
 export default mailSender;
+
