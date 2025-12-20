@@ -53,7 +53,7 @@ A secure full-stack authentication system built using the MERN stack. This proje
   - Git
  # Clone the Repository
    git clone https://github.com/abhinext2244/Auth.git
-   -cd Auth
+   - cd Auth
  # Install Dependencies
   -npm install
  # Start Frontend & Backend Together
